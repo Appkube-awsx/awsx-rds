@@ -9,7 +9,7 @@ awsx-rds --zone <zone> --acccessKey <acccessKey> --secretKey <secretKey> --cross
 ## To retrieve the configuration details of a specific dbInstancecmd, run the following command:
 
 ```bash
-awsx-rds getConfigData -t <table> --zone <zone> --accessKey <accessKey> --secretKey <secretKey> --crossAccountRoleArn <crossAccountRoleArn> --external <externalId> --env <env>
+awsx-rds getConfigData -t <table> --zone <zone> --accessKey <accessKey> --secretKey <secretKey> --crossAccountRoleArn <crossAccountRoleArn> --external <externalId> --env <env> --dbInstanceIdentifier <dbInstanceIdentifier>
 ```
 
 ## To retrieve the cost details of a specific RDS dbInstancecmd, run the following command:
