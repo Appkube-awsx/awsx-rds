@@ -1,7 +1,6 @@
 package dbclustercmd
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/Appkube-awsx/awsx-rds/authenticator"
@@ -42,17 +41,17 @@ func getClusterCostDetail(region string, crossAccountRoleArn string, accessKey s
 
 	input := &costexplorer.GetCostAndUsageInput{
 		TimePeriod: &costexplorer.DateInterval{
-			Start: aws.String("2023-01-01"),
-			End:   aws.String("2023-02-01"),
+			Start: aws.String("2022-07-01"),
+			End:   aws.String("2022-07-31"),
 		},
 		Metrics: []*string{
-			aws.String("USAGE_QUANTITY"),
+			// aws.String("USAGE_QUANTITY"),
 			aws.String("UNBLENDED_COST"),
 			aws.String("BLENDED_COST"),
-			aws.String("AMORTIZED_COST"),
-			aws.String("NET_AMORTIZED_COST"),
-			aws.String("NET_UNBLENDED_COST"),
-			aws.String("NORMALIZED_USAGE_AMOUNT"),
+			// aws.String("AMORTIZED_COST"),
+			// aws.String("NET_AMORTIZED_COST"),
+			// aws.String("NET_UNBLENDED_COST"),
+			// aws.String("NORMALIZED_USAGE_AMOUNT"),
 
 		},
 		GroupBy: []*costexplorer.GroupDefinition{
@@ -70,7 +69,7 @@ func getClusterCostDetail(region string, crossAccountRoleArn string, accessKey s
 			Dimensions: &costexplorer.DimensionValues{
 				Key: aws.String("SERVICE"),
 				Values: []*string{
-					aws.String("Instances"),
+					aws.String("Amazon Relational Database Service"),
 				},
 			},
 		},
@@ -85,9 +84,5 @@ func getClusterCostDetail(region string, crossAccountRoleArn string, accessKey s
 }
 
 func init() {
-	GetCostDataCmd.Flags().StringP("dbInstanceIdentifier", "t", "", "DB instances name")
-
-	if err := GetConfigDataCmd.MarkFlagRequired("dbInstanceIdentifier"); err != nil {
-		fmt.Println(err)
-	}
+	
 }
