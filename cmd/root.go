@@ -6,7 +6,7 @@ import (
 
 	"github.com/Appkube-awsx/awsx-rds/authenticator"
 	"github.com/Appkube-awsx/awsx-rds/client"
-	"github.com/Appkube-awsx/awsx-rds/cmd/dbclustercmd"
+	"github.com/Appkube-awsx/awsx-rds/cmd/dbInstancecmd"
 	"github.com/aws/aws-sdk-go/service/rds"
 	"github.com/spf13/cobra"
 )
@@ -62,8 +62,8 @@ func Execute() {
 }
 
 func init() {
-	AwsxdbClusterMetadataCmd.AddCommand(dbclustercmd.GetConfigDataCmd)
-	AwsxdbClusterMetadataCmd.AddCommand(dbclustercmd.GetCostDataCmd)
+	AwsxdbClusterMetadataCmd.AddCommand(dbInstancecmd.GetConfigDataCmd)
+	AwsxdbClusterMetadataCmd.AddCommand(dbInstancecmd.GetCostDataCmd)
 
 	AwsxdbClusterMetadataCmd.PersistentFlags().String("vaultUrl", "", "vault end point")
 	AwsxdbClusterMetadataCmd.PersistentFlags().String("accountId", "", "aws account number")

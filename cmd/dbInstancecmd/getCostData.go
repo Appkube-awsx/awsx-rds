@@ -1,4 +1,4 @@
-package dbclustercmd
+package dbInstancecmd
 
 import (
 	"log"
