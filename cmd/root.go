@@ -25,19 +25,18 @@ var AwsxdbClusterMetadataCmd = &cobra.Command{
 		acKey := cmd.PersistentFlags().Lookup("accessKey").Value.String()
 		secKey := cmd.PersistentFlags().Lookup("secretKey").Value.String()
 		crossAccountRoleArn := cmd.PersistentFlags().Lookup("crossAccountRoleArn").Value.String()
-		env := cmd.PersistentFlags().Lookup("env").Value.String()
 		externalId := cmd.PersistentFlags().Lookup("externalId").Value.String()
 
-		authFlag := authenticator.AuthenticateData(vaultUrl, accountNo, region, acKey, secKey, crossAccountRoleArn, env, externalId)
+		authFlag := authenticator.AuthenticateData(vaultUrl, accountNo, region, acKey, secKey, crossAccountRoleArn, externalId)
 
 		if authFlag {
-			getRDSResourceList(region, crossAccountRoleArn, acKey, secKey, env, externalId)
+			getRDSResourceList(region, crossAccountRoleArn, acKey, secKey, externalId)
 		}
 
 	},
 }
 
-func getRDSResourceList(region string, crossAccountRoleArn string, accessKey string, secretKey string, env string, externalId string) (*rds.DescribeDBInstancesOutput, error) {
+func getRDSResourceList(region string, crossAccountRoleArn string, accessKey string, secretKey string, externalId string) (*rds.DescribeDBInstancesOutput, error) {
 	log.Println(" aws describe rds instance metadata count summary")
 	dbclient := client.GetClient(region, crossAccountRoleArn, accessKey, secretKey, externalId)
 	dbRequest := rds.DescribeDBInstancesInput{}
@@ -67,7 +66,6 @@ func init() {
 	AwsxdbClusterMetadataCmd.PersistentFlags().String("zone", "", "aws region")
 	AwsxdbClusterMetadataCmd.PersistentFlags().String("accessKey", "", "aws access key")
 	AwsxdbClusterMetadataCmd.PersistentFlags().String("secretKey", "", "aws secret key")
-	AwsxdbClusterMetadataCmd.PersistentFlags().String("env", "", "aws key Required")
 	AwsxdbClusterMetadataCmd.PersistentFlags().String("crossAccountRoleArn", "", "aws crossAccountRoleArn Required")
 	AwsxdbClusterMetadataCmd.PersistentFlags().String("externalId", "", "aws externalId Required")
 
