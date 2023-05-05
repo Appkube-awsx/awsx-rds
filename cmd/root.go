@@ -11,14 +11,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var AwsxdbClusterMetadataCmd = &cobra.Command{
+var AwsxdbInstanceMetadataCmd = &cobra.Command{
 	Use:   "DescribeRDSMetdataDetails",
 	Short: "DescribeRDSMetdataDetails command gets resource counts",
 	Long:  `DescribeRDSMetdataDetails command gets resource counts details of an AWS account`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 
-		log.Println("Command getElementDetails started")
+		log.Println("Command rds data started")
 		vaultUrl := cmd.PersistentFlags().Lookup("vaultUrl").Value.String()
 		accountNo := cmd.PersistentFlags().Lookup("accountId").Value.String()
 		region := cmd.PersistentFlags().Lookup("zone").Value.String()
@@ -40,16 +40,18 @@ func getRDSResourceList(region string, crossAccountRoleArn string, accessKey str
 	log.Println(" aws describe rds instance metadata count summary")
 	dbclient := client.GetClient(region, crossAccountRoleArn, accessKey, secretKey, externalId)
 	dbRequest := rds.DescribeDBInstancesInput{}
-	dbclusterResponse, err := dbclient.DescribeDBInstances(&dbRequest)
+	dbResponse, err := dbclient.DescribeDBInstances(&dbRequest)
 	if err != nil {
 		log.Fatalln("Error:", err)
 	}
-	log.Println(dbclusterResponse)
-	return dbclusterResponse, err
+	log.Println(dbResponse)
+
+	
+	return dbResponse, err
 }
 
 func Execute() {
-	err := AwsxdbClusterMetadataCmd.Execute()
+	err := AwsxdbInstanceMetadataCmd.Execute()
 	if err != nil {
 		log.Fatal("There was some error while executing the CLI: ", err)
 		os.Exit(1)
@@ -57,16 +59,14 @@ func Execute() {
 }
 
 func init() {
-	AwsxdbClusterMetadataCmd.AddCommand(dbInstancecmd.GetConfigDataCmd)
-	AwsxdbClusterMetadataCmd.AddCommand(dbInstancecmd.GetCostDataCmd)
-	AwsxdbClusterMetadataCmd.AddCommand(dbInstancecmd.GetCostSpikeCmd)
-
-	AwsxdbClusterMetadataCmd.PersistentFlags().String("vaultUrl", "", "vault end point")
-	AwsxdbClusterMetadataCmd.PersistentFlags().String("accountId", "", "aws account number")
-	AwsxdbClusterMetadataCmd.PersistentFlags().String("zone", "", "aws region")
-	AwsxdbClusterMetadataCmd.PersistentFlags().String("accessKey", "", "aws access key")
-	AwsxdbClusterMetadataCmd.PersistentFlags().String("secretKey", "", "aws secret key")
-	AwsxdbClusterMetadataCmd.PersistentFlags().String("crossAccountRoleArn", "", "aws crossAccountRoleArn Required")
-	AwsxdbClusterMetadataCmd.PersistentFlags().String("externalId", "", "aws externalId Required")
+	AwsxdbInstanceMetadataCmd.AddCommand(dbInstancecmd.GetConfigDataCmd)
+	
+	AwsxdbInstanceMetadataCmd.PersistentFlags().String("vaultUrl", "", "vault end point")
+	AwsxdbInstanceMetadataCmd.PersistentFlags().String("accountId", "", "aws account number")
+	AwsxdbInstanceMetadataCmd.PersistentFlags().String("zone", "", "aws region")
+	AwsxdbInstanceMetadataCmd.PersistentFlags().String("accessKey", "", "aws access key")
+	AwsxdbInstanceMetadataCmd.PersistentFlags().String("secretKey", "", "aws secret key")
+	AwsxdbInstanceMetadataCmd.PersistentFlags().String("crossAccountRoleArn", "", "aws crossAccountRoleArn Required")
+	AwsxdbInstanceMetadataCmd.PersistentFlags().String("externalId", "", "aws externalId Required")
 
 }

@@ -32,7 +32,7 @@ var GetConfigDataCmd = &cobra.Command{
 		if authFlag {
 			dbInstanceIdentifier, _ := cmd.Flags().GetString("dbInstanceIdentifier")
 			if dbInstanceIdentifier != "" {
-				getClusterDetails(region, crossAccountRoleArn, acKey, secKey, externalId, dbInstanceIdentifier)
+				getInstanceDetails(region, crossAccountRoleArn, acKey, secKey, externalId, dbInstanceIdentifier)
 			} else {
 				log.Fatalln("DB Instance Name not provided. Program exit")
 			}
@@ -40,18 +40,18 @@ var GetConfigDataCmd = &cobra.Command{
 	},
 }
 
-func getClusterDetails(region string, crossAccountRoleArn string, accessKey string, secretKey string, externalId string, dbInstanceIdentifier string) *rds.DescribeDBInstancesOutput {
+func getInstanceDetails(region string, crossAccountRoleArn string, accessKey string, secretKey string, externalId string, dbInstanceIdentifier string) *rds.DescribeDBInstancesOutput {
 	log.Println("Getting aws db Instance data")
-	listClusterClient := client.GetClient(region, crossAccountRoleArn, accessKey, secretKey, externalId)
+	listInstanceClient := client.GetClient(region, crossAccountRoleArn, accessKey, secretKey, externalId)
 	input := &rds.DescribeDBInstancesInput{
 		DBInstanceIdentifier: aws.String(dbInstanceIdentifier),
 	}
-	clusterDetailsResponse, err := listClusterClient.DescribeDBInstances(input)
-	log.Println(clusterDetailsResponse.String())
+	InstanceDetailsResponse, err := listInstanceClient.DescribeDBInstances(input)
+	log.Println(InstanceDetailsResponse.String())
 	if err != nil {
 		log.Fatalln("Error:", err)
 	}
-	return clusterDetailsResponse
+	return InstanceDetailsResponse
 }
 
 func init() {
