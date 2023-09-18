@@ -12,9 +12,9 @@ import (
 )
 
 var AwsxRdsInstanceCmd = &cobra.Command{
-	Use:   "getInstanceList",
-	Short: "getInstanceList command gets instance list",
-	Long:  `getInstanceList command gets instance list  an AWS account`,
+	Use:   "getRdsInstanceList",
+	Short: "getRdsInstanceList command gets RDS instance list",
+	Long:  `getRdsInstanceList command gets RDS instance list of an AWS account`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 

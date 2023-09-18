@@ -9,17 +9,17 @@ import (
 	"github.com/aws/aws-sdk-go/service/rds"
 )
 
-func GetRdsDbInstanceIdentifierByAccountNo(vaultUrl string, vaultToken string, accountNo string, region string) ([]*rds.DescribeDBInstancesOutput, error) {
+func GetRdsByAccountNo(vaultUrl string, vaultToken string, accountNo string, region string) ([]*rds.DescribeDBInstancesOutput, error) {
 	authFlag, clientAuth, err := authenticate.AuthenticateData(vaultUrl, vaultToken, accountNo, region, "", "", "", "")
-	return GetRdsDbInstanceIdentifiersByFlagAndClientAuth(authFlag, clientAuth, err)
+	return GetRdsByFlagAndClientAuth(authFlag, clientAuth, err)
 }
 
-func GetRdsDbInstanceIdentifierByUserCreds(region string, accesskey string, secretKey string, crossAccountRoleArn string, externalId string) ([]*rds.DescribeDBInstancesOutput, error) {
+func GetRdsByUserCreds(region string, accesskey string, secretKey string, crossAccountRoleArn string, externalId string) ([]*rds.DescribeDBInstancesOutput, error) {
 	authFlag, clientAuth, err := authenticate.AuthenticateData("", "", "", region, accesskey, secretKey, crossAccountRoleArn, externalId)
-	return GetRdsDbInstanceIdentifiersByFlagAndClientAuth(authFlag, clientAuth, err)
+	return GetRdsByFlagAndClientAuth(authFlag, clientAuth, err)
 }
 
-func GetRdsDbInstanceIdentifiersByFlagAndClientAuth(authFlag bool, clientAuth *client.Auth, err error) ([]*rds.DescribeDBInstancesOutput, error) {
+func GetRdsByFlagAndClientAuth(authFlag bool, clientAuth *client.Auth, err error) ([]*rds.DescribeDBInstancesOutput, error) {
 	if err != nil {
 		log.Println(err.Error())
 		return nil, err
@@ -36,7 +36,7 @@ func GetRdsDbInstanceIdentifiersByFlagAndClientAuth(authFlag bool, clientAuth *c
 	return response, nil
 }
 
-func GetRdsDbInstanceIdentifiers(clientAuth *client.Auth) ([]*rds.DescribeDBInstancesOutput, error) {
+func GetRds(clientAuth *client.Auth) ([]*rds.DescribeDBInstancesOutput, error) {
 	response, err := cmd.GetInstanceList(*clientAuth)
 	if err != nil {
 		log.Println(err.Error())
